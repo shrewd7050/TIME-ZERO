@@ -35,5 +35,5 @@ Challenge friends in online duels or play against the computer – all in a mode
 
 ### 1. Clone the repository
 ```bash
-git clone https://github.com/your-username/time-zero-pokemon.git
+git clone https://github.com/shrewd7050/TIME-ZERO.git
 cd time-zero-pokemon
