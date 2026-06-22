@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>Time Zero | Pokémon Battle & Live Chat</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body>
+    <!-- Full-screen hero fade background (appears on top) -->
+    <div id="heroFade">
+        <div class="hero-overlay-text">
+            ⚡ TIME ZERO ⚡
+            <p>Scroll down to explore</p>
+        </div>
+    </div>
+
+    <!-- Main content (starts below the hero, scrolls up) -->
+    <div class="content">
+        <section class="hero">
+            <h1>⚡ TIME ZERO ⚡</h1>
+            <p>Real-time battles + immersive chat rooms. Talk, fight, conquer.</p>
+            <button class="cta-button" onclick="openGameModal()">⚔️ BATTLE NOW</button>
+        </section>
+
+        <section class="features-section">
+            <h2 class="section-title">🌀 THE HUB</h2>
+            <div class="features-grid">
+                <div class="feature-card" onclick="openChatModal()">
+                    <div class="feature-icon">💬</div>
+                    <h3>Chat Rooms</h3>
+                    <p>News & Music — live discussions</p>
+                    <button class="feature-btn">Open Rooms →</button>
+                </div>
+                <div class="feature-card" onclick="openGameModal()">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Pokémon Battle</h3>
+                    <p>VS computer or online</p>
+                    <button class="feature-btn">Battle →</button>
+                </div>
+                <div class="feature-card" onclick="alert('✨ Private chats coming soon')">
+                    <div class="feature-icon">🔒</div>
+                    <h3>Private Chat</h3>
+                    <p>Direct messages (soon)</p>
+                    <button class="feature-btn">Soon</button>
+                </div>
+            </div>
+        </section>
+        <div class="footer">© 2026 Time Zero | Bluish Realm</div>
+    </div>
+
+    <!-- GAME MODAL -->
+    <div id="gameModal">
+        <div class="game-modal-content">
+            <div class="modal-header">
+                <h2>⚔️ POKÉMON BATTLE ⚔️</h2>
+                <button onclick="toggleManual()" class="manual-btn">📖 How to Play</button>
+            </div>
+            <!-- Manual overlay -->
+            <div id="manualOverlay">
+                <div class="manual-box">
+                    <button onclick="toggleManual()" class="close-manual">✖ Close</button>
+                    <h2>⚔️ Battle Manual</h2>
+                    <div class="manual-content">
+                        <p><strong style="color:#ffd966;">Moves:</strong></p>
+                        <ul>
+                            <li>💥 <strong>Heavy Attack</strong> – deals 20 damage,when other user is defending. If not attacker takes 15 damage</li>
+                            <li>⚡ <strong>Quick Attack</strong> – deals 15 damage,when other user uses heavy attack. If not attacker takes 10 damage</li>
+                            <li>🛡️ <strong>Defend</strong> – Blocking doesn't work against heavy attack ,denfender takes 20 damage. Else deals 10 damage to attacker</li>
+                            <li>🚫 <strong>Same Attack</strong> – Heavy attack and Denfence cancel out each other while Quick attacker take 5 damage each,</li>
+                        </ul>
+                        <br>
+                        <p><strong style="color:#ffd966;">How it works:</strong></p>
+                        <ul>
+                            <li>• In <strong>Single Player</strong>, you and the CPM choose a move each round.</li>
+                            <li>• The CPM “thinks” for a second before revealing its move.</li>
+                            <li>• In <strong>Online Two Player</strong>, players take turns – the server validates each move.</li>
+                            <li>• Winner gets +1 win and +1 level (saved to database).</li>
+                        </ul>
+                        <br>
+                        <p style="text-align:center; color:#7bc5ff;">Good luck, ENJOY 🏆</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="gameStatus">Choose your mode</div>
+            <div id="gameControls">
+                <button onclick="startSinglePlayer()" class="action-btn">🎮 Single Player</button>
+                <button onclick="setupOnlineMode()" class="action-btn">🌐 Online 2P</button>
+                <button onclick="closeGameModal()" class="action-btn cancel-btn">Cancel</button>
+            </div>
+            <div id="onlineSetup">
+                <input type="text" id="playerName" placeholder="Your name">
+                <button onclick="findMatch()" class="action-btn">Find Match</button>
+                <button onclick="cancelMatch()" class="action-btn cancel-btn">Cancel</button>
+                <div id="matchStatus"></div>
+            </div>
+            <div id="battleArea">
+                <div class="battle-stats">
+                    <div class="battle-card">
+                        <div>🔥 <span id="p1Name">You</span></div>
+                        <div class="health-bar-container"><div class="health-bar" id="p1HealthBar" style="width:100%"></div></div>
+                        <div>❤️ <span id="p1Health">100</span>%</div>
+                    </div>
+                    <div class="battle-card">
+                        <div>🤖 <span id="p2Name">Opponent</span></div>
+                        <div class="health-bar-container"><div class="health-bar" id="p2HealthBar" style="width:100%"></div></div>
+                        <div>❤️ <span id="p2Health">100</span>%</div>
+                    </div>
+                </div>
+                <div id="messageLog" class="message-log"></div>
+                <div id="actionButtons" class="action-buttons"></div>
+                <div class="battle-actions">
+                    <button onclick="resetGameLocal()" class="action-btn">🔄 New Game</button>
+                    <button onclick="closeGameModal()" class="action-btn">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--user name  -->
+    <div id="nameModal">
+        <div class="name-modal-content">
+            <h2>👤 Choose your chat name</h2>
+            <input type="text" id="nameInput" placeholder="Enter a name..." maxlength="20" />
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 15px;">
+                <button onclick="confirmName()" class="action-btn">✅ Confirm</button>
+                <button onclick="closeNameModal()" class="action-btn cancel-btn">Use random</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- CHAT MODAL -->
+    <div id="chatModal">
+        <div class="chat-hub">
+            <div class="chat-header-bar">
+                <h2>🎙️ CHAT ROOMS</h2>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <span style="color:#aaccff;">👤 <span id="chatUserNameDisplay">Guest</span></span>
+                    <button onclick="changeChatName()" class="name-change-btn">✏️ Change Name</button>
+                    <button class="close-btn" onclick="closeChatModal()">✖ Close</button>
+                </div>
+            </div>
+            <div class="rooms-container">
+                <!-- NEWS ROOM -->
+                <div class="room-panel">
+                    <div class="room-title">
+                        <span>📰 NEWS ROOM</span>
+                        <span id="newsStatusBadge" class="status-badge">connecting</span>
+                    </div>
+                    <div id="newsMessagesArea" class="chat-messages-area">
+                        <div class="system-bubble">✨ Welcome to News Room — global updates ✨</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="newsChatInput" placeholder="Type a message...">
+                        <button onclick="sendChatMsg('News')" class="send-btn">Send</button>
+                    </div>
+                </div>
+                <!-- MUSIC ROOM -->
+                <div class="room-panel">
+                    <div class="room-title">
+                        <span>🎵 MUSIC ROOM</span>
+                        <span id="musicStatusBadge" class="status-badge">connecting</span>
+                    </div>
+                    <div id="musicMessagesArea" class="chat-messages-area">
+                        <div class="system-bubble">🎧 Talk in Music, feel the Vibe 🎧</div>
+                    </div>
+                    <div class="chat-input-area">
+                        <input type="text" id="musicChatInput" placeholder="Type a message...">
+                        <button onclick="sendChatMsg('Music')" class="send-btn">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Load the JavaScript -->
+    <script src="/static/js/script.js"></script>
+</body>
+</html>
